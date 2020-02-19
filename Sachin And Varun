@@ -1,0 +1,58 @@
+#include<iostream>
+using namespace std;
+typedef long long ll;
+ll m=1000000007;
+class triple{
+  public:
+  ll x,y,gcd;
+};
+triple EE(int a,int b){
+  if(b==0){
+    triple myans;
+    myans.gcd=a;
+    myans.y=0;
+    myans.x=1;
+    return myans;
+  }
+  if(a<b){
+    return EE(b,a);
+  }
+  triple smallans=EE(b,a%b);
+  triple myans;
+  myans.gcd=smallans.gcd;
+  myans.x=smallans.y;
+  myans.y=smallans.x-((a/b)*smallans.y);
+  return myans;
+}
+ll minv(ll a,ll m){
+  ll x =EE(a,m).x;
+  return ((x%m)+m)%m;
+}
+int main(){
+	int t;
+  cin>>t;
+  while(t--){
+    ll a,b,d;
+    cin>>a>>b>>d;
+    ll g=EE(a,b).gcd;
+    if(d==0){
+      cout<<1<<endl;
+      continue;
+    }
+    if(d%g){
+      cout<<0<<endl;
+      continue;
+    }
+    a/=g;b/=g;d/=g;
+    
+    ll y1=(d%a)*((minv(b,a))%a)%a;
+    if(d < y1*b){
+			cout << 0 <<endl;
+			continue;
+    }
+    ll n=((d/b)-y1)/a;
+    cout<<n+1<<endl;
+    
+  }
+	return 0;
+}
