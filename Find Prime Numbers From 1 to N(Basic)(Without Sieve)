@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+int main(){
+long long n,cnt=0;
+  cin>>n;
+  bool *arr=new bool[n];
+  memset(arr,true,(n)*sizeof(bool));
+  arr[0]=false;
+  arr[1]=false;
+  for(long long i=2;i<=sqrt(n);i++){
+    for(long long j=i*i;j<n;j=j+i){
+      arr[j]=false;
+    }
+  }
+  for(int k=0;k<n;k++){
+    if(arr[k]==true){
+      cnt++;
+    }
+  }
+  cout<<cnt;
+	return 0;
+}
