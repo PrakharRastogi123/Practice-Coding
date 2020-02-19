@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+struct frog{
+int idx;
+ll x;
+};
+bool compare(frog a,frog b){
+return a.x>b.x;
+}
+int main()
+{
+int n,p;
+ll k;
+scanf("%d%llu%d",&n,&k,&p);
+frog *arr=new frog[n];
+for(int i=0;i<n;i++){
+    scanf("%d",&arr[i].x);
+    arr[i].idx=i;
+}
+sort(arr,arr+n,compare);
+ll *maxrange=new ll[n];
+for(int i=0;i<n;i++){
+    maxrange[i]=0;
+}
+maxrange[arr[0].idx]=arr[0].x+k;
+for(int i=1;i<n;i++){
+    if(arr[i-1].x-arr[i].x<=k){
+        maxrange[arr[i].idx]=maxrange[arr[i-1].idx];
+    }
+    else{
+        maxrange[arr[i].idx]=arr[i].x+k;
+    }
+}
+for(int i=0;i<p;i++){
+    int pos1,pos2;scanf("%d%d",&pos1,&pos2);
+    if(maxrange[pos1-1]==maxrange[pos2-1]){
+        printf("Yes\n");
+    }
+    else{
+        printf("No\n");
+    }
+}
+delete [] maxrange;
+delete [] arr;
+return 0;
+} 
