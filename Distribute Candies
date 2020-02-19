@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool check(int arr[],int mid,int s,int boxes){
+  int cnt=0;
+  for(int i=0;i<boxes;i++){
+    cnt=cnt+arr[i]/mid;
+     if(cnt>=s){
+    return true;
+     }
+  }
+ return false;
+}
+int main() {
+int t;
+  cin>>t;
+  for(int g=0;g<t;g++){
+    int boxes,s;
+    cin>>boxes>>s;
+    int *arr=new int[boxes];
+    for(int i=0;i<boxes;i++){
+      cin>>arr[i];
+    }
+    int ans;
+    int max=arr[0];
+    for(int i=0;i<boxes;i++){
+      if(max<arr[i]){
+        max=arr[i];
+      }
+    }
+    int si=0,ei=max;
+    while(ei>=si){
+      int mid=si+(ei-si)/2;
+      if(check(arr,mid,s,boxes)){
+        ans=mid;
+        si=mid+1;
+      }
+      else{
+        ei=mid-1;
+      }
+    }
+    cout<<ans<<endl;
+    delete [] arr;
+  }
+}
