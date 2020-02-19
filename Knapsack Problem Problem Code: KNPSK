@@ -1,0 +1,100 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ll ans[200050];
+int main() {
+    int n;scanf("%d",&n);
+    vector<ll> one,two;
+    ll w,v,W=0;
+    for(int i=0;i<n;i++){
+        scanf("%llu%llu",&w,&v);
+        if(w==1){
+            one.push_back(v);
+        }
+        else{
+            two.push_back(v);
+        }
+        W+=w;
+    }
+    memset(ans,0,sizeof(ans));
+    sort(one.begin(),one.end());
+    sort(two.begin(),two.end());
+    vector<ll> On=one,Tw=two;
+    ll curr=0;
+    for(ll w=2;w<=W;w=w+2){
+        int cost1=0,cost2=0;
+        if(two.size()>=1){
+            cost2=two.back();
+        }
+        int flag=1;
+        if(one.size()>=2){
+            cost1=one.back();
+            cost1+=one[one.size()-2];
+        }
+        else if(one.size()>=1){
+            flag=2;
+            cost1=one.back();
+        }
+        if(cost2>cost1){
+            curr+=cost2;
+            two.pop_back();
+        }
+        else{
+            if(flag==1){
+                curr+=cost1;
+                one.pop_back();
+                one.pop_back();
+            }
+            else{
+                curr+=cost1;
+                one.pop_back();
+            }
+        }
+        ans[w]=curr;
+    }
+    one=On;
+    two=Tw;
+    curr=0;
+    if(one.size()>=1){
+        curr=one.back();
+        one.pop_back();
+    }
+    ans[1]=curr;
+    for(ll w=3;w<=W;w=w+2){
+        int cost1=0,cost2=0;
+        if(two.size()>=1){
+            cost2=two.back();
+        }
+        int flag=1;
+        if(one.size()>=2){
+            cost1=one.back();
+            cost1+=one[one.size()-2];
+        }
+        else if(one.size()>=1){
+            flag=2;
+            cost1=one.back();
+        }
+        if(cost2>cost1){
+            curr+=cost2;
+            two.pop_back();
+        }
+        else{
+            if(flag==1){
+                curr+=cost1;
+                one.pop_back();
+                one.pop_back();
+            }
+            else{
+                curr+=cost1;
+                one.pop_back();
+            }
+        }
+        ans[w]=curr;
+    }
+    for(ll w=1;w<=W;w++){
+        if(w>1) printf(" ");
+        printf("%llu",ans[w]);
+    }
+
+return 0;
+}  
