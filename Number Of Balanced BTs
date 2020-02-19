@@ -1,0 +1,34 @@
+#include<cmath>
+long long int sahi=pow(10,9)+7;
+long long int mem[50]={0};          //FOR MEMOIZATION
+
+long long int balancedBTs(int h) {
+  
+if(h==0){
+  return 1;
+}
+if(h==1){
+  return 1;
+}
+if(mem[h]!=0){
+	return mem[h];                    // USING PREVIOUSLY CALCULATED VALUE
+}
+  long long int x=balancedBTs(h-1);
+  long long int y=balancedBTs(h-2);
+  long long int k=((x%sahi)*(x%sahi))%sahi;
+  long long int l=(2*(x%sahi)*(y%sahi))%sahi;
+  long long int m=((k%sahi)+(l%sahi))%sahi;
+  mem[h]=m;                         // STORING VALUE OF CALCULATED balancedBTs(h)
+  return m;
+}
+ #include <iostream>
+#include "Solution.h"
+using namespace std;
+#include <cmath>
+
+int main() {
+    int h;
+    cin >> h;
+    int ans = balancedBTs(h);
+    cout << ans << endl;
+}
