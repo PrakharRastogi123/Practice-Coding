@@ -1,0 +1,61 @@
+#include<cstdio>
+#include<string>
+#include<vector>
+#include <iostream>
+using namespace std;
+
+bool concat_possible(string inp, int x){
+	int len = inp.size();
+	int c = inp[x]-'0';
+
+	if(c<2 && x<len-1)
+		return true;
+	else if(c==2 && x<len-1 && inp[x+1] <= '6')
+		return true;
+
+	return false;
+}
+
+void generate_string(string inp, int pos, string out, vector<string> &v){
+	char c;
+	if(pos > inp.size()-1){
+		//printf("%s\n",out.c_str());
+		v.push_back(out);
+		return ;
+	}
+
+	if(inp[pos] == '0')
+		generate_string(inp, pos+1, out, v);
+	else{
+		c = 'a' + (inp[pos]-'0') -1;
+		string tmp(1,c);
+		generate_string(inp, pos+1, out+tmp, v);
+
+		if(concat_possible(inp, pos)){
+			c = 'a' + ((inp[pos]-'0')*10 + (inp[pos+1]-'0')) -1;
+			string tmp1(1,c);
+			generate_string(inp, pos+2, out+tmp1, v);
+		}
+	}
+	return ;
+}
+void printAllPossibleCodes(string inp) {
+  
+  vector<string> v;
+    string out;
+    int pos=0;
+   generate_string(inp,pos,out,v);
+  vector<string>::iterator it;
+  int i=0;
+  for(it=v.begin();it!=v.end();it++){
+    cout<<v[i]<<endl;
+    i++;
+  }
+} 
+int main(){
+    string input;
+    cin >> input;
+
+    printAllPossibleCodes(input);
+    return 0;
+} 
