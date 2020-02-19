@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+int max(int a,int b){
+  return (a>b)?a:b;
+}
+int kadane(int *sumArr,int n){
+  int curr=sumArr[0],best=sumArr[0];
+  for(int i=1;i<n;i++){
+    curr=max(sumArr[i],curr+sumArr[i]);
+    best=max(best,curr);
+  }
+  return best;
+}
+
+int main()
+{
+  int n,m;
+  cin>>n>>m;
+  int **in=new int*[n];
+  for(int i=0;i<n;i++){
+    in[i]=new int[m];
+  }
+  for(int i=0;i<n;i++){
+    for(int j=0;j<m;j++){
+        cin>>in[i][j];
+    }
+  }
+  int *sumArr=new int[n];
+  int max1=INT_MIN;
+  for(int i=0;i<m;i++){
+    
+    for(int p=0;p<n;p++){
+    sumArr[p]=0;
+    }
+    
+    for(int j=i;j<m;j++){
+      for(int k=0;k<n;k++){
+        sumArr[k]+=in[k][j];
+      }
+      int kd=kadane(sumArr,n);
+      if(kd>max1){
+        max1=kd;
+      }
+    }
+  }
+  cout<<max1;
+  for(int i=0;i<n;i++){
+    delete [] in[i];
+    }
+  delete [] in;
+    return 0;
+} 
