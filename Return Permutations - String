@@ -1,0 +1,40 @@
+#include <string>
+using namespace std;
+#include <iostream>
+#include <string>
+
+int returnPermutations(string input, string output[]){
+   	int index=0;
+  int l
+int returnPermutations(string input, string output[]){
+int length = input.length();
+if(input.empty()){
+output[0]="";
+return 1;
+}
+
+string newoutput[10000];
+int small=returnPermutations(input.substr(1),newoutput);
+
+int f=0;
+
+for(int i=0;i<small;i++){
+for(int j=0;j<length;j++)
+{
+string s1=newoutput[i].substr(0,j);
+string s2=newoutput[i].substr(j);
+output[f++]=s1+input[0]+s2;
+}
+}
+return f;
+}
+int main(){
+    string input;
+    cin >> input;
+    string output[10000];
+    int count = returnPermutations(input, output);
+    for(int i = 0; i < count && i < 10000; i++){
+        cout << output[i] << endl;
+    }
+    return 0;
+} 
