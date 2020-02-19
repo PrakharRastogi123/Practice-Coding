@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct node{
+  int maxm;
+  int smax;
+};
+void bt(int *arr,node *tree,int si,int ei,int ti){
+  if(si==ei){
+    tree[ti].maxm=arr[si];
+    tree[ti].smax=INT_MIN;
+      return;
+  }
+  int mid=(si+ei)/2;
+  bt(arr,tree,si,mid,2*ti);
+  bt(arr,tree,mid+1,ei,2*ti+1);
+  node lft=tree[2*ti];
+  node rgt=tree[2*ti+1];
+  tree[ti].maxm=max(lft.maxm,rgt.maxm);
+  tree[ti].smax=min(max(lft.maxm,rgt.smax),max(rgt.maxm,lft.smax));
+  return;
+}
+void update(int *arr,node *tree,int si,int ei,int ti,int idx,int val){
+  if(si==ei){
+    arr[idx]=val;
+    tree[ti].maxm=val;
+    tree[ti].smax=INT_MIN;
+      return;
+  }
+  int mid=(si+ei)/2;
+  if (idx<=mid)update(arr,tree,si,mid,2*ti,idx,val);
+  else update(arr,tree,mid+1,ei,2*ti+1,idx,val);
+  node lft=tree[2*ti];
+  node rgt=tree[2*ti+1];
+  tree[ti].maxm=max(lft.maxm,rgt.maxm);
+  tree[ti].smax=min(max(lft.maxm,rgt.smax),max(rgt.maxm,lft.smax));
+  return;
+}
+node querry(int *arr,node *tree,int si,int ei,int ti,int l,int r){
+  node ans;
+  ans.maxm=ans.smax=-1;
+  if(si>r || ei<l){ 
+    return ans; 
+  }
+  if(si>=l && ei<=r){
+    return tree[ti];
+  }
+  int mid=(si+ei)/2;
+  node lft=querry(arr,tree,si,mid,2*ti,l,r);
+  node rgt=querry(arr,tree,mid+1,ei,2*ti+1,l,r);
+  ans.maxm=max(lft.maxm,rgt.maxm);
+  ans.smax=min(max(lft.maxm,rgt.smax),max(rgt.maxm,lft.smax));
+  return ans;
+}
+int main() {
+    int n;cin>>n;
+    int *arr=new int[n];
+    node *tree=new node[3*n];
+    for(int i=0;i<n;i++){
+      cin>>arr[i];
+    }
+    bt(arr,tree,0,n-1,1);
+    int qrr;cin>>qrr;
+    while(qrr--){
+    char ch;
+    int l,r;
+    cin>>ch>>l>>r;
+      if(ch=='Q'){
+      node ans=querry(arr,tree,0,n-1,1,l-1,r-1);
+      cout<<ans.maxm+ans.smax<<endl; 
+      }
+      if(ch=='U'){
+       update(arr,tree,0,n-1,1,l-1,r);
+      } 
+    }
+}
