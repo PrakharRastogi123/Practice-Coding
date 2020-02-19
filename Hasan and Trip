@@ -1,0 +1,45 @@
+/*Suppose we're standing at the i-th city 
+and we wanna know what is the maximal amount of fun
+we could get traveling through some cities starting our trip from the 1-st one,
+and store this value in dp[i]. Let's take a look on all cities from which we could straight travel to the i-th one.
+We will choose such city j that dp[j] - dist(i, j) is maximal overall j < i, where dist(i, j) is Euclidean distance
+between i-th and j-th cities. To complete calculating value of dp[i] don't forget to addf[i] (amount of fun from visiting i-th city)
+to it. Finally, the answer will be in dp[n].
+*/
+#include <bits/stdc++.h>
+using namespace std;
+int max(int a,int b){
+  return (a>b)?a:b;
+}
+int main()
+{
+    long long t;cin>>t;
+    long long **arr= new long long*[t];
+  	for(int i=0;i<t;i++){
+      arr[i]=new long long[3];
+    }
+  	for(int i=0;i<t;i++){
+      for(int j=0;j<3;j++){
+        cin>>arr[i][j];
+      }
+  	}
+  	double *dp=new double[t];
+    for(int i=0;i<t;i++){
+      dp[i]=-100000000;
+    }
+  double val;
+  	dp[0]=arr[0][2]*1.000000;
+    for(int i=1;i<t;i++){
+      val=0;
+      for(int j=0;j<i;j++){
+        val=(double)sqrt((pow((arr[i][0]-arr[j][0]),2)+pow((arr[i][1]-arr[j][1]),2)));
+        dp[i]=max(dp[i],arr[i][2]-val+dp[j]);
+      }
+    }
+  cout<<fixed<<setprecision(6)<<dp[t-1];
+  delete [] dp;
+  for(int i=0;i<t;i++){
+    delete [] arr[i];
+  }
+  delete [] arr;
+} 
