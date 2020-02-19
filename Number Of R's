@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+int t;cin>>t;
+  while(t--){
+    string s;
+    cin>>s;
+    int l=s.length();
+    int *arr=new int[l];
+    int cnt_r=0;
+    for(int i=0;i<l;i++){
+      if(s[i]=='R'){
+        arr[i]=-1;
+        cnt_r++;
+      }
+      if(s[i]=='K'){
+        arr[i]=1;
+      }
+    }
+    if(cnt_r==l){
+      cout<<l-1<<endl;
+      continue;
+    }
+    int c_max=0,curr=0;
+    for(int i=0;i<l;i++){
+      curr+=arr[i];
+      if(curr>c_max){
+        c_max=curr;
+      }
+      if(curr<0){
+        curr=0;
+      }
+    }
+    cout<<c_max+cnt_r<<endl;
+    delete [] arr;
+  }
+return 0;
+}
