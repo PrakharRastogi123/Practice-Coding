@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define m 1000000006
+#define m1 1000000007
+typedef long long ll;
+void multiply(ll A[2][2], ll M[2][2]){
+  ll fv=((((A[0][0]%m)*(M[0][0]%m))%m)+(((A[0][1]%m)*(M[1][0]%m))%m))%m;
+  ll sv=((((A[0][0]%m)*(M[0][1]%m))%m)+(((A[0][1]%m)*(M[1][1]%m))%m))%m;
+  ll tv=((((A[1][0]%m)*(M[0][0]%m))%m)+(((A[1][1]%m)*(M[1][0]%m))%m))%m;
+  ll fov=((((A[1][0]%m)*(M[0][1]%m))%m)+(((A[1][1]%m)*(M[1][1]%m))%m))%m;
+  A[0][0]=fv;
+  A[0][1]=sv;
+  A[1][0]=tv;
+  A[1][1]=fov;
+}
+void power(ll A[2][2],ll n){
+  if(n==1){
+    return;
+  }
+  power(A,n/2);
+  multiply(A,A);
+  if(n%2!=0){
+   ll M[2][2]={{1,1},{1,0}};
+   multiply(A,M);
+  }
+}
+ll fibo(ll n){
+  if(n==0 || n==1){
+    return 1;
+  }
+  ll A[2][2]={{1,1},{1,0}};
+  power(A,n-1);
+  return A[0][0];
+}
+ll em(ll a,ll x){
+  if(x==0){
+    return 1;
+  }
+  if(x%2==0){
+    return em((a*a)%m1,x/2);
+  }
+  else{
+    return ((a%m1)*em((a*a)%m1,(x-1)/2)%m1)%m1;
+  }
+}
+int main() {
+int t;cin>>t;
+  while(t--){
+    ll f0,f1,n,ans;
+    cin>>f0>>f1>>n;
+    if(n==0){
+      cout<<f0<<endl;
+      continue;
+    }
+    if(n==1){
+      cout<<f1<<endl;
+      continue;
+    }
+    ll x=fibo(n-1)%(m);
+    ll y=fibo(n)%(m);
+    ll a=em(1+f0,x)%m1;
+    ll b=em(1+f1,y)%m1;
+    ans=((a%m1)*(b%m1))%m1;
+    ans=(ans-1+m1)%m1;;
+    cout<<ans<<endl;
+  }
+}
