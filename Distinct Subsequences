@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define M 1000000007
+ll cnt(string s){
+    vector <ll> v(256,-1);
+ll l=s.length();
+   ll dp[l+1];
+   dp[0]=1;
+    for(ll i=1;i<=l;i++){
+        dp[i]=(2*(dp[i-1]%M))%M;
+        if(v[s[i-1]]!=-1){
+            dp[i]=((dp[i]%M)-(dp[v[s[i-1]]])%M+M)%M;
+        }
+        v[s[i-1]]=i-1;
+    }
+    return (dp[l]%M);
+}
+int main()
+{
+    ll t;cin>>t;
+    while(t--){
+        string s;cin>>s;
+        cout<<cnt(s)%M<<endl;
+    }
+    return 0;
+} 
