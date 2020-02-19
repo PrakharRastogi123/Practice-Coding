@@ -1,0 +1,72 @@
+long long mc(int arr[],int n,long long si,long long ei){
+  long long size = ei-si+1;
+  long long mid=(ei+si)/2;
+  int *brr= new int[size];
+  long long i=si;
+  long long j=mid+1;
+  long long k=0;
+  long long count=0;
+  while(i<=mid && j<=ei){
+    if(arr[i]<=arr[j]){
+      brr[k]=arr[i];
+      k++;
+      i++;
+    }
+    else{
+      brr[k]=arr[j];
+      k++;
+      j++;
+      count+=mid+1-i;
+    }
+  }
+  while(i<=mid){
+    brr[k]=arr[i];
+    i++;
+    k++;
+  }
+  while(j<=ei){
+    brr[k]=arr[j];
+    j++;
+    k++;
+  }
+  long long m=0;
+  long long p=0;
+ for(p=si;p<=ei;p++){
+   arr[p]=brr[m];;
+   m++;
+ }
+  return count;
+}
+long long mgic(int arr[],int n,long long si,long long ei){
+  long long icount=0;
+  if(si>=ei){
+    return 0;
+  }
+  long long mid=(ei+si)/2;
+  icount+=mgic(arr,n,si,mid);
+  icount+=mgic(arr,n,mid+1,ei);
+  icount+= mc(arr,n,si,ei);
+  return icount;
+}
+long long solve(int A[], int n)
+{
+	if(n==0){
+      return 0;
+    }
+  long long si=0;
+  long long ei=n-1;
+  return mgic(A,n,si,ei);
+}
+#include<bits/stdc++.h>
+using namespace std;
+#define MAXN 100005
+#include "solution.h"
+int main()
+{
+	int n,A[MAXN];
+	cin>>n;
+	for(int i = 0; i < n ; i++){
+		cin>>A[i];
+	}
+	cout<<solve(A,n)<<endl;
+}
