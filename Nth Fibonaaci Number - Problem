@@ -1,0 +1,36 @@
+#include<iostream>
+using namespace std;
+void mult(int A[2][2],int M[2][2]){
+  int fv=A[0][0]*M[0][0]+A[0][1]*M[1][0];
+  int sv=A[0][0]*M[0][1]+A[0][1]*M[1][1];
+  int tv=A[1][0]*M[0][0]+A[1][1]*M[1][0];
+  int fov=A[1][0]*M[0][1]+A[1][1]*M[1][1];
+  A[0][0]=fv;
+  A[0][1]=sv;
+  A[1][0]=tv;
+  A[1][1]=fov;
+}
+void pow(int A[2][2],int n){
+  if(n==1){
+    return;
+    }
+  pow(A,n/2);
+  mult(A,A);
+  if(n%2!=0){
+    int M[2][2]={{1,1},{1,0}};
+    mult(A,M);
+  }
+}
+int fibo(int n){
+  if(n==0 || n==1){
+    return 1;
+  }
+  int A[2][2]={{1,1},{1,0}};
+  pow(A,n-1);
+  return A[0][0];
+}
+int main(){
+int n;cin>>n;
+  cout<<fibo(n)<<endl;
+  return 0;
+}   
