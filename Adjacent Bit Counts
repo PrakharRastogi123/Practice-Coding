@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+#define ll long long
+#define mod 1000000007
+int main()
+{
+    ll t;
+    cin>>t;
+    while(t--)
+    {
+        ll sn,len,no_of_bit;
+        cin>>sn>>len>>no_of_bit;
+
+        if(len<no_of_bit)
+        {
+            cout<<"0\n";
+            continue;
+        }
+        ll dp[len+1][len+1][2];
+        memset(dp, 0, sizeof(dp));
+        dp[1][0][1]=1;
+        dp[1][0][0]=1;
+
+        for(ll i=2; i<=len; i++)
+            for(ll j=0; j<i; j++)
+            {
+                dp[i][j][0]=(dp[i-1][j][0]%mod+dp[i-1][j][1]%mod)%mod;
+                dp[i][j][1]=dp[i-1][j][0]%mod;
+                if(j-1>=0)
+                    dp[i][j][1]+=dp[i-1][j-1][1]%mod;
+            }
+        cout<<sn<<" "<< (dp[len][no_of_bit][1]%mod+dp[len][no_of_bit][0]%mod)%mod <<endl;
+    }
+    return 0;
+} 
