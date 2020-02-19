@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+int main(){
+int t;scanf("%d",&t);
+while(t--){
+    int n;scanf("%d",&n);
+    int *h=new int[n+1];
+    int *k=new int[n+1];
+    ll mx=0;
+    for(int i=1;i<=n;i++){
+        scanf("%d",&h[i]);
+        if(h[i]>mx){
+            mx=h[i];
+        }
+    }
+    ll *dp=new ll[2*mx+1];
+    for(int i=1;i<=n;i++){
+        scanf("%d",&k[i]);
+    }
+    dp[0]=0;
+    for(ll i=1;i<=2*mx;i++){
+        dp[i]=INT_MAX;
+    }
+    for(int i=1;i<=n;i++){
+        for(ll j=k[i];j<=2*mx;j++){
+            dp[j]=min(dp[j],1+dp[j-k[i]]);
+        }
+    }
+    ll res=0;
+    for(ll i=1;i<=n;i++){
+        res+=dp[2*h[i]];
+    }
+    printf("%d\n",res);
+    delete[] dp;
+    delete[] h;
+    delete[] k;
+}
+return 0;
+} 
