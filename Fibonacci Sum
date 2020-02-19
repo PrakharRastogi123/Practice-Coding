@@ -1,0 +1,44 @@
+#include<iostream>
+#include<cstring>
+using namespace std;
+#define MOD 1000000007
+void multiply(unsigned long long A[2][2],unsigned long long M[2][2]){
+  unsigned long long fv=(((A[0][0]%MOD)*(M[0][0]%MOD))%MOD+((A[0][1]%MOD)*(M[1][0]%MOD)%MOD))%MOD;
+  unsigned long long sv=(((A[0][0]%MOD)*(M[0][1]%MOD))%MOD+((A[0][1]%MOD)*(M[1][1]%MOD)%MOD))%MOD;
+  unsigned long long tv=(((A[1][0]%MOD)*(M[0][0]%MOD))%MOD+((A[1][1]%MOD)*(M[1][0]%MOD)%MOD))%MOD;
+  unsigned long long fov=(((A[1][0]%MOD)*(M[0][1]%MOD))%MOD+((A[1][1]%MOD)*(M[1][1]%MOD)%MOD))%MOD;
+  A[0][0]=fv;
+  A[0][1]=sv;
+  A[1][0]=tv;
+  A[1][1]=fov;
+}
+void power(unsigned long long A[2][2],unsigned long long n){
+  if(n==1){
+    return;
+  }
+  power(A,n/2);
+  multiply(A,A);
+  if(n%2!=0){
+    unsigned long long M[2][2]={{1,1},{1,0}};
+    multiply(A,M);
+  }
+}
+unsigned long long fibo(unsigned long long n){
+ if(n==0){
+   return 0;
+ }
+ if(n==1){
+   return 1;
+ }
+ unsigned long long A[2][2]={{1,1},{1,0}};
+  power(A,n-1);
+  return A[0][0];
+}
+unsigned long long fiboSum(unsigned long long m,unsigned long long n)
+{
+ unsigned long long sum=0;
+  for(int i=m;i<=n;i++){
+    sum=(sum+fibo(i))%MOD;
+  }
+  return sum;
+}  
