@@ -1,0 +1,80 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ll tree[3*100001]={0};
+ll p2[100001];
+ll arr[100005];
+void bp2(){
+    p2[0]=1;
+    for(int i=1;i<100001;i++){
+        p2[i]=(p2[i-1]*2)%3;
+    }
+}
+void bt(int si,int ei,int ti){
+    if(si==ei){
+        tree[ti]=arr[si];
+        return;
+    }
+    ll mid=(si+ei)/2;
+    bt(si,mid,2*ti);
+    bt(mid+1,ei,2*ti+1);
+    tree[ti]=(tree[2*ti+1]+(tree[2*ti]*p2[ei-mid]))%3;
+    return;
+}
+void up(int si,int ei,int ti,int idx){
+    if(si==ei){
+        arr[idx]=1;
+        tree[ti]=1;
+        return;
+    }
+    ll mid=(si+ei)/2;
+    if(si<=idx && idx<=mid){
+        up(si,mid,2*ti,idx);
+    }
+    else{
+        up(mid+1,ei,2*ti+1,idx);
+    }
+    tree[ti]=(tree[2*ti+1]+(tree[2*ti]*p2[ei-mid]))%3;
+    return;
+}
+ll querry(int si,int ei,int ti,int l,int r){
+    ll mid=(si+ei)/2;
+    if(si>r || ei<l){
+        return 0;
+    }
+    if(si>=l && ei<=r){
+        return  (tree[ti]*p2[r-ei])%3;
+    }
+    ll ans1=querry(si,mid,2*ti,l,r);
+    ll ans2=querry(mid+1,ei,2*ti+1,l,r);
+    return (ans1+ans2)%3;
+}
+int main()
+{
+    int n;cin>>n;
+    string str;
+    cin>>str;
+    bp2();
+    for(int i=0;i<n;i++)
+    {
+        arr[i]=str[i]-48;
+    }
+    bt(0,n-1,1);
+    long long int t;cin>>t;
+    while(t--)
+    {
+        int chk;cin>>chk;
+        ll l;cin>>l;
+        if(chk==0)
+        {
+            ll r;cin>>r;
+            cout<<querry(0,n-1,1,l,r)<<endl;
+        }
+        else
+        {
+                str[l]='1';
+                arr[l]=1;
+                up(0,n-1,1,l);
+        }
+    }
+}
