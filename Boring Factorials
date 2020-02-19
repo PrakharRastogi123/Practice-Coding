@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long em(long long n,long long b,long long p){
+  if(b==0){
+    return 1;
+  }
+  if(b%2==0){
+    return em((n*n)%p,b/2,p);
+  }
+  else{
+    return ((n%p)*em((n*n)%p,(b-1)/2,p))%p;
+  }
+}
+int main() {
+int t;cin>>t;
+  while(t--){
+    long long p,n;cin>>n>>p;
+    long long ans=-1;
+    if(p<=n){
+     cout<<0<<endl;
+      continue;
+    }
+    for(long long i=n+1;i<=p-1;i++){
+      ans=ans*em(i,p-2,p)%p;
+    }
+    ans=ans+p;
+    cout<<ans<<endl;
+  }
+  return 0;
+}
