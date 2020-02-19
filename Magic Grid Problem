@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+using namespace std;
+int min(int a,int b){
+  return (a<b)?a:b;
+}
+int ans(int **in,int si,int sj,int m,int n,int** ou){
+  
+  int o1=1,o2=1;
+  
+  //checking if index is not in range returning a large value
+  if(si >= m || sj >= n){
+    return 10000000;
+  }
+  
+  //at last cell
+  if(si == m - 1 && sj == n - 1) return 1; 
+  
+  if(ou[si][sj]>-1){
+    return ou[si][sj];
+  }
+  
+  o1=ans(in,si+1,sj,m,n,ou)-in[si][sj];
+  o2=ans(in,si,sj+1,m,n,ou)-in[si][sj];
+  
+  if(min(o1,o2)>0){
+  
+     ou[si][sj]=min(o1,o2);
+    
+  }else{
+    //if value is negative we need to assign 1 as minimum health needed at any cell is 1
+    ou[si][sj] = 1; 
+  
+  }
+  
+  return ou[si][sj];
+}
+int main()
+{
+  int t;cin>>t;
+  while(t--){
+    int m,n;
+    cin>>m>>n;
+    int **in=new int*[m];
+    for(int i=0;i<m;i++){
+      in[i]=new int[n];
+    }
+    for(int i=0;i<m;i++){
+      for(int j=0;j<n;j++){
+        cin>>in[i][j];
+      }
+    }
+    int **ou=new int*[m];
+    for(int i=0;i<m;i++){
+      ou[i]=new int[n];
+    }
+    for(int i=0;i<m;i++){
+      for(int j=0;j<n;j++){
+        ou[i][j]=-1;
+      }
+    }
+        
+    cout<<ans(in,0,0,m,n,ou)<<endl;
+   
+  }
+    return 0;
+} 
