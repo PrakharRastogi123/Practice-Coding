@@ -1,0 +1,52 @@
+    int longestBitonicSubarray(int *arr, int n) {
+      int *output1 =new int[n];
+      int *output2 =new int[n];
+      output1[0]=1;
+      output2[0]=1;
+      int max=0;
+      for(int i=1;i<n;i++){
+        output1[i]=1;
+        output2[i]=1;
+      }
+       for(int i=1;i<n;i++){
+        for(int j=i-1;j>=0;j--){
+          if(arr[i]>arr[j]){
+            int ans=output1[j]+1;
+            if(ans>output1[i]){
+              output1[i]=ans;
+            }
+          }
+        }
+       }
+       for(int i=n-2;i>=0;i--){
+        for(int j=i+1;j<n;j++){
+            if(arr[i]>arr[j]){
+            int ans=output2[j]+1;
+            if(ans>output2[i]){
+              output2[i]=ans;
+            }
+          }
+        }
+      }
+      for(int i=0;i<n;i++){
+      if(max<output1[i]+output2[i]-1){
+        max=output1[i]+output2[i]-1;
+      }
+      }
+      delete [] output1;
+      delete [] output2;
+      return max;
+ 	}  
+  #include<iostream>
+using namespace std;
+#include "solution.h"
+
+int main() {
+  int n, input[100000];
+  cin>>n;
+  for(int i=0; i<n; i++) {
+    cin>>input[i];
+  }
+  cout<<longestBitonicSubarray(input, n);
+  return 0;
+}
