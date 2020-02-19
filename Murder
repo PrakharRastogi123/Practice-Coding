@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long mg(int arr[],long long si,long long ei){
+  long long size=ei-si+1;
+  int *brr=new int[size];
+  long long mid=si+(ei-si)/2;
+  long long i=si;
+  long long j=mid+1;
+  long long k=0;
+  long long sum=0;
+  while(i<=mid && j<=ei){
+    if(arr[i]<arr[j]){
+      brr[k++]=arr[i++];
+      sum+=(ei-j+1)*arr[i-1];
+    }
+    else{
+      brr[k++]=arr[j++];
+    }
+  }
+  while(i<=mid){
+    brr[k++]=arr[i++];
+  }
+  while(j<=ei){
+    brr[k++]=arr[j++];
+  }
+  long long m=0;
+  for(long long p=si;p<=ei;p++){
+    arr[p]=brr[m];
+    m++;
+  }
+  delete [] brr;
+  return sum;
+}
+long long mgic(int arr[],long long si,long long ei){
+  if(si>=ei){
+    return 0;
+  }
+  long long sum=0;
+  long long mid=si+(ei-si)/2;
+  sum+=mgic(arr,si,mid);
+  sum+=mgic(arr,mid+1,ei);
+  sum+=mg(arr,si,ei);
+  return sum;
+}
+int main() {
+int t;
+  long long n;
+  cin>>t;
+  for(int b=0;b<t;b++){
+    cin>>n;
+    int *arr=new int[n];
+    for(long long i=0;i<n;i++){
+      cin>>arr[i];
+    }
+    long long si=0;
+    long long ei=n-1;
+    cout<<mgic(arr,si,ei)<<endl;
+    /*for(int i=0;i<n;i++){
+      cout<<arr[i]<<" ";
+    }
+    cout<<endl;*/
+    delete [] arr;
+  }
+}
