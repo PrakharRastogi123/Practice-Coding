@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define MOD 1000000007
+ll dp[501][501];
+ll arr[501];
+ll gcd(int a,int b){
+  if(a<b){
+    return gcd(b,a);
+  }
+  if(b==0){
+    return a;
+  }
+  return gcd(b,a%b);
+}
+ll listq(ll *arr,ll n){
+  for(int i=0;i<n;i++){
+    dp[i][arr[i]]=1;
+  }
+  for(int i=1;i<n;i++){
+    for(int j=i-1;j>=0;j--){
+      if(arr[j]<arr[i]){
+      for(int k=1;k<=100;k++){
+        ll m=gcd(arr[i],k);
+        dp[i][m]=(dp[i][m]+dp[j][k])%MOD;
+      }
+      }
+    }
+  }
+  ll ans=0;
+  for(int i=0;i<n;i++){
+    ans=(ans+dp[i][1])%MOD;
+  }
+  return ans;
+}
+int main()
+{
+  ll n;
+  cin>>n;
+  for(int i=0;i<n;i++){
+    cin>>arr[i];
+  }
+  memset(dp,0,sizeof(dp));
+  cout<<listq(arr,n);
+    return 0;
+} 
