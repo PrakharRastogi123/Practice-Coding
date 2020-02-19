@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+using namespace std;
+int tree[300000];
+int arr[200000];
+void bt(int *arr,int *tree,int si,int ei,int ti){
+  if(si==ei){
+    tree[ti]=arr[si];
+    return;
+  }
+  int mid=(si+ei)/2;
+  bt(arr,tree,si,mid,2*ti);
+  bt(arr,tree,mid+1,ei,2*ti+1);
+  tree[ti]=tree[2*ti]+tree[2*ti+1];
+}
+void update(int *arr,int *tree,int si,int ei,int ti,int idx,int val){
+  if(si==ei){
+    tree[ti]=val;
+    arr[idx]=val;
+    return;
+  }
+  int mid=(si+ei)/2;
+  if(idx<=mid){
+   update(arr,tree,si,mid,2*ti,idx,val);
+  }
+  else{
+    update(arr,tree,mid+1,ei,2*ti+1,idx,val);
+  }
+  tree[ti]=tree[2*ti]+tree[2*ti+1];
+}
+int qrry(int *arr,int *tree,int si,int ei,int ti,int lft,int rgt){
+  if(si>rgt || ei<lft){
+    return 0;
+  }
+  if(si>=lft && ei<=rgt){
+    return tree[ti];
+  }
+  int mid=(si+ei)/2;
+  int ans1=qrry(arr,tree,si,mid,2*ti,lft,rgt);
+  int ans2=qrry(arr,tree,mid+1,ei,2*ti+1,lft,rgt);
+  return ans1+ans2;
+}
+int main() {
+  int n;cin>>n;
+  //int *arr=new int[n+1];
+  for(int i=1;i<=n;i++){
+    int num;cin>>num;
+    arr[i]=num%2==0?1:0;
+  }
+  //int *tree=new int[2*n+1];
+  memset(tree,0,sizeof(tree));
+  bt(arr,tree,1,n,1);
+  int t;cin>>t;
+  while(t--){
+    int check;cin>>check;
+    int lft,rgt;cin>>lft>>rgt;
+    if(check==1){
+      cout<<qrry(arr,tree,1,n,1,lft,rgt)<<endl;
+    }
+    else if(check==0){
+      update(arr,tree,1,n,1,lft,rgt%2==0?1:0);
+    }
+    else{
+      cout<<(rgt-lft+(1))-qrry(arr,tree,1,n,1,lft,rgt)<<endl;
+    }
+  }
+}
