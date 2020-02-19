@@ -1,0 +1,30 @@
+#include <iostream>
+#include <string>
+using namespace std;
+void swap1(char& a,char& b){
+char x;
+x=a;
+a=b;
+b=x;
+}
+void permute(string input,int s,int e){
+  if(s==e){
+    cout<<input<<endl;
+    return;
+  }
+  for(int i=s;i<=e;i++){
+    swap1(input[i],input[s]);
+    permute(input,s+1,e);
+    swap1(input[i],input[s]);
+  }
+
+}
+void printPermutations(string input){
+  permute(input,0,input.size()-1);
+}
+int main(){
+    string input;
+    cin >> input;
+    printPermutations(input);
+    return 0;
+} 
