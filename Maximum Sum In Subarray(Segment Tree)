@@ -1,0 +1,63 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define inf 0x3f3f
+struct node{
+  int sum,maxsum,bps,bss;
+    node() 
+    { 
+        bps = bss = sum = -inf; 
+        maxsum= -inf; 
+    } 
+};
+node merge(node l,node r){
+    node mgd;
+    mgd.maxsum=max(max(l.maxsum,r.maxsum),max(max((l.sum+r.bps),(r.sum+l.bss)),l.bss+r.bps));
+    mgd.sum=l.sum+r.sum;
+    mgd.bps=max(l.bps,l.sum+r.bps);
+    mgd.bss=max(r.bss,r.sum+l.bss);
+    return mgd;
+}
+node querry(int *arr,node *tree,int si,int ei,int ti,int l,int r){
+    if(ei<l || si>r){
+        node nullnode;
+        return nullnode;
+    }
+    if(si>=l && ei<=r){
+        return tree[ti];
+    }
+    int mid=(si+ei)/2;
+    node lft=querry(arr,tree,si,mid,2*ti,l,r);
+    node rgt=querry(arr,tree,mid+1,ei,2*ti+1,l,r);
+    node res=merge(lft,rgt);
+    return res;
+    
+}
+void bt(int *arr,node *tree,int si,int ei,int ti){
+    if(si==ei){
+        tree[ti].maxsum=arr[si];
+        tree[ti].sum=arr[si];
+        tree[ti].bps=arr[si];
+        tree[ti].bss=arr[si];
+        return;
+    }
+    int mid=(si+ei)/2;
+    bt(arr,tree,si,mid,2*ti);
+    bt(arr,tree,mid+1,ei,2*ti+1);
+    tree[ti]=merge(tree[ti*2],tree[2*ti+1]);
+    return;
+}
+int main() {
+int n;cin>>n;
+    int *arr=new int[50005];
+    node *tree=new node[3*50005];
+    for(int i=0;i<n;i++){
+      cin>>arr[i];
+    }
+    int t;cin>>t;
+    bt(arr,tree,0,n-1,1);
+    while(t--){
+    int l,r;cin>>l>>r;
+    node res=querry(arr,tree,0,n-1,1,l-1,r-1);
+    cout<<res.maxsum<<endl;
+    }
+}
