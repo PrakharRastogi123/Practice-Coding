@@ -1,0 +1,51 @@
+#include <iostream>
+using namespace std;
+void printDFS(int **arr,int V,int si,int ei,int *v){
+   v[si]=true;
+    for(int i=0;i<V;i++){
+        if(si==i){
+            continue;
+        }
+        if(arr[si][i]==1){
+         if(v[i]) {
+         continue; 
+         }  
+        printDFS(arr,V,i,ei,v);
+        }
+    }
+}
+int main() {
+    int V, E;
+    cin >> V >> E;
+    int **arr=new int*[V];
+    for(int i=0;i<V;i++){
+        arr[i]=new int[V];
+        for(int j=0;j<V;j++){
+            arr[i][j]=0;
+        }
+    }
+    for(int i=0;i<E;i++){
+        int f,s;cin>>f>>s;
+        arr[f][s]=1;
+        arr[s][f]=1;
+    }
+    int *v=new int[V];
+    for(int i=0;i<V;i++){
+        v[i]=false;
+    }
+    int si,ei;
+    cin>>si>>ei;
+    printDFS(arr,V,si,ei,v);
+    if(v[ei]){
+        cout<<"true";
+    }
+    else{
+        cout<<"false";
+    }
+    for(int i=0;i<V;i++){
+        delete [] arr[i];
+    }
+    delete [] arr;
+    delete [] v;
+  return 0;
+} 
