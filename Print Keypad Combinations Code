@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+using namespace std;
+void p(int num, string output){
+  if(num==0){
+    cout<<output<<endl;
+    return;
+    }
+  int ld=num%10;
+  string s;
+  if(ld==2){s="abc";}
+  if(ld==3){s="def";}
+  if(ld==4){s="ghi";}
+  if(ld==5){s="jkl";}
+  if(ld==6){s="mno";}
+  if(ld==7){s="pqrs";}
+  if(ld==8){s="tuv";}
+  if(ld==9){s="wxyz";}
+  if(ld>=2 && ld<=6 || ld==8){
+  p(num/10,s[0]+output);
+  p(num/10,s[1]+output);
+  p(num/10,s[2]+output);
+  }
+  if(ld==9 || ld==7){
+  p(num/10,s[0]+output);
+  p(num/10,s[1]+output);
+  p(num/10,s[2]+output);
+  p(num/10,s[3]+output);
+  }
+}
+void printKeypad(int num){
+string output;
+p(num,output);
+}
+int main(){
+    int num;
+    cin >> num;
+
+    printKeypad(num);
+
+    return 0;
+} 
