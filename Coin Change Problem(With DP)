@@ -1,0 +1,41 @@
+#include<iostream>
+using namespace std;
+int out[1001][11];
+int cnt(int d[],int numd,int val){
+	if(val==0) return 1;
+	if(numd==0) return 0;
+	if(val<0) return 0;
+  	if(out[val][numd]>-1){
+    	return out[val][numd];
+  	}
+  int first=cnt(d,numd,val-d[0]);
+  int second=cnt(d+1,numd-1,val);
+  out[val][numd]=first+second;
+  return first+second;
+}
+int countWaysToMakeChange(int d[], int numd, int val){
+  for(int i=0;i<val+1;i++){
+    for(int j=0;j<numd+1;j++){
+      out[i][j]=-1;
+    }
+  }
+ return cnt(d,numd,val);
+} 
+#include<iostream>
+using namespace std;
+#include "Solution.h"
+
+int main(){
+
+  int numDenominations;
+  cin >> numDenominations;
+  int* denominations = new int[numDenominations];
+  for(int i = 0; i < numDenominations; i++){
+    cin >> denominations[i];
+  }
+  int value;
+  cin >> value;
+
+  cout << countWaysToMakeChange(denominations, numDenominations, value);
+
+}   
