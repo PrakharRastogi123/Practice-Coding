@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+struct cust{
+int a,b,d;
+};
+bool compare(cust A,cust B){
+return A.d>B.d;
+}
+int main() {
+    int n,x,y;
+    scanf("%d%d%d",&n,&x,&y);
+    cust *arr=new cust[n];
+    for(int i=0;i<n;i++){
+     scanf("%d",&arr[i].a);
+    }
+    for(int i=0;i<n;i++){
+     scanf("%d",&arr[i].b);
+     arr[i].d=abs(arr[i].a-arr[i].b);
+    }
+    sort(arr,arr+n,compare);
+    ll p=0;
+    for(int i=0;i<n;i++){
+        if(arr[i].a>arr[i].b){
+           if(x){
+            p+=arr[i].a;
+            x--;
+           }
+           else{
+            p+=arr[i].b;
+            y--;
+           }
+        }
+        else{
+            if(y){
+             p+=arr[i].b;
+             y--;
+            }
+            else{
+             p+=arr[i].a;
+             x--;
+            }
+        }
+    }
+    printf("%llu",p);
+    delete [] arr;
+
+return 0;
+}  
