@@ -1,0 +1,49 @@
+#include<iostream>
+using namespace std;
+typedef long long ll;
+#define M 1000000
+int main(){
+  ll *s=new ll[M+1];
+  ll **f=new ll*[11];
+  for(int i=0;i<=10;i++){
+    f[i]=new ll[M+1];
+  }
+  for(ll i=0;i<=10;i++){
+  for(ll j=0;j<=M;j++){
+  f[i][j]=0;
+  s[j]=0;
+  }
+  }
+  for(int i=2;i<=M;i++){
+  	if(s[i]==0){
+  		for(ll j=i;j<=M;j+=i){
+          s[j]+=1;
+  		}
+  	}
+  }
+
+  for(int i=0;i<=10;i++){
+    for(ll j=1;j<=M;j++){
+      if(s[j]==i){
+        f[i][j]=f[i][j-1]+1;
+      }
+      else{
+        f[i][j]=f[i][j-1];
+      }
+    }
+  }
+ 
+  ll t;
+  cin>>t;
+  while(t--){
+    ll a,b,c;
+    cin>>a>>b>>c;
+    cout<<f[c][b]-f[c][a-1]<<endl;
+  }
+  delete []s;
+  for(int i=0;i<=10;i++){
+    delete []f[i];
+  }
+  delete [] f;
+	return 0;
+} 
