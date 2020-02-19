@@ -1,0 +1,43 @@
+#include<iostream>
+using namespace std;
+#include<vector>
+int main(){
+  int s[1000001];
+  for(int i=2;i<=1000001;i++){
+        s[i]=0;
+  }
+  s[0]=0;
+  s[1]=0;
+  for(int i=2;i<=100;i++){
+     if(s[i]==0){
+       int k=1;
+        for(int j=i*i*i;j<=1000001;j=(i*i*i)*k){
+        s[j]=-1;
+        k++;
+        }
+     }
+  }
+  int k=1;
+  for(int i=1;i<=1000001;i++){
+    if(s[i]==0){
+      s[i]=k++;
+    }
+  }
+	int t;
+    cin>>t;
+ /*for(int i=0;i<=MAX;i++){
+   cout<<i<<"  "<<s[i]<<endl;
+ }*/
+  
+  for(int i=1;i<=t;i++){
+      int n;
+      cin>>n;
+    if(s[n]==-1){
+      cout<<"Case "<<i<<": "<<"Not Cube Free"<<endl;
+    }
+    else{
+      cout<<"Case "<<i<<": "<<s[n]<<endl;
+    }
+  }
+	return 0;
+} 
