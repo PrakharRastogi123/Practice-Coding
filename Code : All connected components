@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+void dfs(int **arr,int V,int sv,bool *visit,vector<int> *ans){
+    //cout<<sv<<" ";
+    ans->push_back(sv);
+    visit[sv]=true;
+    for(int i=0;i<V;i++){
+        if(i==sv){
+            continue;
+        }
+        if(arr[i][sv]==1 && !visit[i]){
+            dfs(arr,V,i,visit,ans);
+        }
+    }
+}
+void pdfs(int **arr,int V){
+     bool *visit=new bool[V];
+    for(int i=0;i<V;i++){
+        visit[i]=false;
+    }
+    int idx=0;
+    for(int i=0;i<V;i++){
+        if(!visit[i]){
+            vector<int> *ans=new vector<int> ();
+            dfs(arr,V,i,visit,ans);
+            sort(ans->begin(),ans->end());
+            for(int j=0;j<ans->size();j++){
+            cout<<ans->at(j)<<" ";
+            }
+            cout<<endl;
+        }
+    }
+    delete [] visit;
+}
+int main()
+{
+  int V, E;
+    cin >> V >> E;
+    int **arr=new int*[V];
+    for(int i=0;i<V;i++){
+        arr[i]=new int[V];
+        for(int j=0;j<V;j++){
+            arr[i][j]=0;
+        }
+    }
+    for(int i=0;i<E;i++){
+        int f,s;cin>>f>>s;
+        arr[f][s]=1;
+        arr[s][f]=1;
+    }
+   
+    pdfs(arr,V);
+    for(int i=0;i<V;i++){
+        delete [] arr[i];
+    }
+    delete [] arr;
+  return 0;
+} 
