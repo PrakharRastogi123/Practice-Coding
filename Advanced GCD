@@ -1,0 +1,38 @@
+#include<iostream>
+using namespace std;
+#include<iostream>
+#include<string.h>
+long long gcd(int a, long long b) 
+{   
+    if (!b) 
+       return a; 
+    return gcd(b,a%b); 
+}
+long long calc(string b,int a){
+  long long k=0;
+  long long l=b.length();
+  for(long long i=0;i<l;i++){
+    k=(k*10+b[i]-48)%a;
+  }
+  return k;
+}
+
+long long gcdstr(int a,string b){
+  long long k=calc(b,a);
+  return gcd(a,k);
+}
+int main(){
+  int t;
+  cin>>t;
+  for(int i=0;i<t;i++){
+  int a;
+  string b;
+  cin>>a>>b;
+    if(a==0){
+      cout<<b;
+      continue;
+    }
+  cout<<gcdstr(a,b)<<endl;
+  }
+	return 0;
+}
