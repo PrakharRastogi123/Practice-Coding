@@ -1,0 +1,42 @@
+Node *lca(Node *root,int a,int b){
+    if(!root){
+        return NULL;
+    }
+    if(root->data==a || root->data==b){
+        return root;
+    }
+    Node *lca1=lca(root->left,a,b);
+    Node *lca2=lca(root->right,a,b);
+    if(lca1 != NULL && lca2 != NULL){
+        return root;
+    }
+    if(lca1!=NULL){
+        return lca1;
+    }
+    else{
+        return lca2;
+    }
+    
+}
+int dist_level(Node* root,int d,int level){
+    if(!root){
+        return -1;
+    }
+    if(root->data==d){
+        return level;
+    }
+    int left=dist_level(root->left,d,level+1);
+    if(left==-1){
+        return dist_level(root->right,d,level+1);
+    }
+    return left;
+}
+int findDist(Node* root, int a, int b) {
+    if(!root){
+        return 0;
+    }
+    Node * ancestor=lca(root,a,b);
+    int d1=dist_level(ancestor,a,0);
+    int d2=dist_level(ancestor,b,0);
+    return d1+d2;
+}
